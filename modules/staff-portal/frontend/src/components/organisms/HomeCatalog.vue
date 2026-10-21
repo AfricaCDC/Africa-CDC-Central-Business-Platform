@@ -27,7 +27,7 @@ const division = ref(FREQUENT_DIVISION)
 const moduleScope = ref<'total' | 'active'>('total')
 
 function isActiveModule(item: HomeCatalogItem): boolean {
-  return Boolean((item.moduleKey || '').trim() || (item.portalPath || '').trim() || (item.sitePath || '').trim())
+  return Boolean((item.moduleKey || '').trim() || (item.portalPath || '').trim() || (item.sitePath || '').trim() || (item.url || '').trim())
 }
 
 const modulesByKey = computed(() => {
@@ -40,6 +40,9 @@ const modulesByKey = computed(() => {
 })
 
 function itemHref(item: HomeCatalogItem): string {
+  if (item.url) {
+    return item.url
+  }
   if (item.portalPath) {
     return `${staffWebRoot()}${item.portalPath.startsWith('/') ? item.portalPath : `/${item.portalPath}`}`
   }
@@ -263,7 +266,7 @@ const displayGroups = computed(() => {
             :description="resolved(item).description"
             :icon="resolved(item).icon"
             :href="resolved(item).href"
-            :opens-in-new-tab="!!item.sitePath"
+            :opens-in-new-tab="!!item.sitePath || !!item.url"
           />
           <div v-else class="settings-card cbp-home-card-soon" aria-disabled="true">
             <div>
