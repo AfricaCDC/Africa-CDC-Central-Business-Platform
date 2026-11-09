@@ -1,0 +1,16 @@
+# Attach the planning_cdc (RBM) gateway to the CBP network so Apache serves it at /staff/planning/.
+# Start the CBP first (it creates the cbp-modules network), then from modules/planning_cdc:
+#
+#   docker compose --env-file .env.production \
+#     -f docker-compose.yml -f ../../docker/planning-cdc.compose.yml up -d --build
+
+services:
+  api-gateway:
+    networks:
+      cbp-modules:
+        aliases:
+          - planning-gateway
+
+networks:
+  cbp-modules:
+    external: true

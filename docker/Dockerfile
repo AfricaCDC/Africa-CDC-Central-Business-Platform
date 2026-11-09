@@ -48,7 +48,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         zip \
         redis; \
     a2dismod mpm_prefork mpm_worker 2>/dev/null || true; \
-    a2enmod mpm_event proxy proxy_fcgi rewrite headers setenvif; \
+    a2enmod mpm_event proxy proxy_fcgi proxy_http rewrite headers setenvif; \
     mkdir -p /var/run/php; \
     chown www-data:www-data /var/run/php
 
