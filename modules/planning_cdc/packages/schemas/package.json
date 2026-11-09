@@ -1,0 +1,10 @@
+{
+  "name": "@rbm/schemas",
+  "version": "1.0.0",
+  "description": "RBM Platform — Shared Zod Validation Schemas",
+  "main": "index.js",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}

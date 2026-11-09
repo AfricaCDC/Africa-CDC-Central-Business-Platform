@@ -1,0 +1,431 @@
+{
+  "disaggregations": [
+    {
+      "code": "sex",
+      "label": "Sex",
+      "options": [
+        { "code": "male", "label": "Male" },
+        { "code": "female", "label": "Female" }
+      ]
+    },
+    {
+      "code": "age_group",
+      "label": "Age by Group",
+      "options": [
+        { "code": "under_5", "label": "<5 years (Under-five children)" },
+        { "code": "5_14", "label": "5-14 years (School-age children)" },
+        { "code": "15_24", "label": "15-24 years (Youth)" },
+        { "code": "15_49", "label": "15-49 years (Reproductive Age)" },
+        { "code": "50_60", "label": "50-60 years (Older Adults)" },
+        { "code": "60_plus", "label": "60+ years (Elderly Population)" }
+      ]
+    },
+    {
+      "code": "member_states",
+      "label": "Member States (MS)",
+      "options": [
+        { "code": "total_ms", "label": "Total Number of MS" },
+        { "code": "list_ms", "label": "List of MS Reached" }
+      ]
+    },
+    {
+      "code": "region",
+      "label": "Region",
+      "options": [
+        { "code": "central", "label": "Central" },
+        { "code": "eastern", "label": "Eastern" },
+        { "code": "southern", "label": "Southern" },
+        { "code": "northern", "label": "Northern" },
+        { "code": "western", "label": "Western" }
+      ]
+    },
+    {
+      "code": "facility_type",
+      "label": "Facility Type",
+      "options": [
+        { "code": "primary", "label": "Primary" },
+        { "code": "secondary", "label": "Secondary" },
+        { "code": "tertiary", "label": "Tertiary" }
+      ]
+    },
+    {
+      "code": "staff_hired_type",
+      "label": "Type of Staff Hired",
+      "options": [
+        { "code": "internal", "label": "Internal" },
+        { "code": "external", "label": "External" }
+      ]
+    },
+    {
+      "code": "contract_type",
+      "label": "Type of Contract",
+      "options": [
+        { "code": "regular", "label": "Regular" },
+        { "code": "fixed_term", "label": "Fixed-term" },
+        { "code": "short_term", "label": "Short-term" },
+        { "code": "consultancy", "label": "Consultancy" },
+        { "code": "seconded", "label": "Seconded" }
+      ]
+    },
+    {
+      "code": "onboarding_period",
+      "label": "New Hires Onboarding Period",
+      "options": [
+        { "code": "lt_30", "label": "< 30 days" },
+        { "code": "30_60", "label": "30-60 days" },
+        { "code": "60_90", "label": "60-90 days" },
+        { "code": "gt_90", "label": "90 days above" }
+      ]
+    },
+    {
+      "code": "grade_level",
+      "label": "Grade Level",
+      "options": [
+        { "code": "p1_p2", "label": "P1–P2" },
+        { "code": "p3_p4", "label": "P3–P4" },
+        { "code": "p5_plus", "label": "P5 & Above" }
+      ]
+    },
+    {
+      "code": "enrollment_status",
+      "label": "Enrollment Status (Training, Fellowships etc.)",
+      "options": [
+        { "code": "enrolled", "label": "Number Enrolled" },
+        { "code": "completed", "label": "Number Completed" }
+      ]
+    },
+    {
+      "code": "separation_type",
+      "label": "Type of Separation",
+      "options": [
+        { "code": "voluntary", "label": "Voluntary" },
+        { "code": "involuntary", "label": "Involuntary" }
+      ]
+    },
+    {
+      "code": "training_type",
+      "label": "Training Type",
+      "options": [
+        { "code": "long_term", "label": "Long-term Courses (6 Months & Above)" },
+        { "code": "short_term", "label": "Short-term Courses (3 to 6 Months or Below)" },
+        { "code": "peer_to_peer", "label": "Peer-to-peer Learning" },
+        { "code": "conferences", "label": "Conferences" },
+        { "code": "webinars", "label": "Webinars" },
+        { "code": "symposiums", "label": "Symposiums" },
+        { "code": "afphc", "label": "Africa CDC Public Health Corps (AfPHC)" },
+        { "code": "scholarship", "label": "Scholarship Health Programmes" },
+        { "code": "kofi_annan", "label": "Kofi Annan Fellowship Programme" },
+        { "code": "other_fellowships", "label": "Other Fellowships Programmes" },
+        { "code": "young_professional", "label": "Young Professional Programmes" },
+        { "code": "health_policy_fellowship", "label": "Health Policy Fellowship" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "training_program_area",
+      "label": "Training Programs Areas",
+      "options": [
+        { "code": "supply_chain", "label": "Supply Chain & Logistics Management" },
+        { "code": "surveillance", "label": "Surveillance & Disease Intelligence" },
+        { "code": "data_science", "label": "Data Science and Visualization" },
+        { "code": "ai_ml", "label": "Artificial Intelligence Modelling and Machine Learning" },
+        { "code": "compliance_ethics", "label": "Compliance and Ethics" },
+        { "code": "monitoring_evaluation", "label": "Monitoring and Evaluation" },
+        { "code": "risk_management", "label": "Risk Management" },
+        { "code": "legal_affairs", "label": "Legal Affairs" },
+        { "code": "rcce_sbc", "label": "RCCE/SBC" },
+        { "code": "research_knowledge", "label": "Research & Knowledge Management" },
+        { "code": "digital_health_it", "label": "Digital Health, IT" },
+        { "code": "wellness_psychosocial", "label": "Wellness and Psychosocial Support" },
+        { "code": "human_resource", "label": "Human Resource" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "person_trained_type",
+      "label": "Type of Person Trained",
+      "options": [
+        { "code": "internal", "label": "Internal" },
+        { "code": "external", "label": "External" }
+      ]
+    },
+    {
+      "code": "cadre_category",
+      "label": "Cadre by Category",
+      "options": [
+        { "code": "medical_staff", "label": "Medical Staff" },
+        { "code": "non_medical_staff", "label": "Non-Medical Staff" },
+        { "code": "technical_staff", "label": "Technical Staff" },
+        { "code": "administrative_staff", "label": "Administrative Staff" },
+        { "code": "healthcare_workers", "label": "Healthcare Workers" },
+        { "code": "public_health_officers", "label": "Public Health Officers" },
+        { "code": "crvs", "label": "CRVS" },
+        { "code": "health_managers", "label": "Health Managers" },
+        { "code": "health_info_officers", "label": "Health Information Officers/Data Managers/M&E" },
+        { "code": "senior_management", "label": "Senior Management/Officials" },
+        { "code": "field_epidemiologists", "label": "Field Epidemiologists" },
+        { "code": "csos", "label": "CSOs" },
+        { "code": "media", "label": "Media" },
+        { "code": "service_providers", "label": "Service Providers" },
+        { "code": "frontline_workers", "label": "Frontline Workers" },
+        { "code": "community_health_workers", "label": "Community Health Workers" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "fetp",
+      "label": "Field Epidemiology Training Program (FETP)",
+      "options": [
+        { "code": "frontline", "label": "Frontline" },
+        { "code": "intermediate", "label": "Intermediate" }
+      ]
+    },
+    {
+      "code": "simex_type",
+      "label": "Type of SimEX",
+      "options": [
+        { "code": "advanced", "label": "Advanced" },
+        { "code": "tabletop", "label": "Tabletop (TTX)" },
+        { "code": "drill", "label": "Drill" },
+        { "code": "full_scale", "label": "Full-Scale" },
+        { "code": "functional", "label": "Functional" }
+      ]
+    },
+    {
+      "code": "disease_event_type",
+      "label": "Disease Event Type",
+      "options": [
+        { "code": "infectious", "label": "Infectious Disease" },
+        { "code": "zoonotic", "label": "Zoonotic Disease" },
+        { "code": "food_waterborne", "label": "Food/Waterborne Disease" },
+        { "code": "environmental_hazard", "label": "Environmental Hazard" }
+      ]
+    },
+    {
+      "code": "pathogen_type",
+      "label": "Type of Pathogen",
+      "options": [
+        { "code": "vhf", "label": "VHF" },
+        { "code": "epidemic_prone", "label": "Other Epidemic prone pathogens" }
+      ]
+    },
+    {
+      "code": "hazard_type",
+      "label": "Type of Hazard",
+      "options": [
+        { "code": "biological", "label": "Biological Hazards (Bacteria e.g., Salmonella, Listeria, E. coli; Viruses e.g., Norovirus; Parasites; and Moulds/Fungi e.g., mycotoxins)" },
+        { "code": "chemical", "label": "Chemical Hazards (Pesticides, veterinary drug residues, heavy metals, environmental contaminants, cleaning agents, unauthorized food additives, and mycotoxins)" },
+        { "code": "physical", "label": "Physical Hazards (Glass, metal fragments, plastic pieces, jewellery, or pest droppings)" },
+        { "code": "allergenic", "label": "Allergenic Hazards (The 14 EU-listed food allergens e.g., peanuts, milk, soy, shellfish, gluten due to cross-contamination)" },
+        { "code": "radiological", "label": "Radiological Hazards (radioactive substance contamination)" }
+      ]
+    },
+    {
+      "code": "disease_type",
+      "label": "Disease Type",
+      "options": [
+        { "code": "hiv", "label": "HIV" },
+        { "code": "tb", "label": "TB" },
+        { "code": "malaria", "label": "Malaria" },
+        { "code": "ntds", "label": "NTDs" },
+        { "code": "mpox", "label": "Mpox" },
+        { "code": "ebola", "label": "Ebola" },
+        { "code": "marburg", "label": "Marburg" },
+        { "code": "cholera", "label": "Cholera" },
+        { "code": "hemorrhagic_fever", "label": "Hemorrhagic Fever" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "phe_plan_type",
+      "label": "Type of PHE Preparedness and Response Plans",
+      "options": [
+        { "code": "naphs", "label": "National Action Planning for Health Security (NAPHS)" },
+        { "code": "multi_hazard", "label": "Multi-Hazard and Multi-Sectoral Preparedness and Response Plan" },
+        { "code": "contingency", "label": "Contingency Plan" }
+      ]
+    },
+    {
+      "code": "oh_sector_type",
+      "label": "Type of Sector (One Health)",
+      "options": [
+        { "code": "animal", "label": "Animal" },
+        { "code": "human_health", "label": "Human Health" },
+        { "code": "environment", "label": "Environment" }
+      ]
+    },
+    {
+      "code": "oh_integration_level",
+      "label": "Level of One Health Integration",
+      "options": [
+        { "code": "partial", "label": "Human-Animal (Partial One Health)" },
+        { "code": "full", "label": "Human–Animal–Environment (Full One Health)" }
+      ]
+    },
+    {
+      "code": "coe_type",
+      "label": "Type of Centre of Excellence (CoE)",
+      "options": [
+        { "code": "regional_reference_lab", "label": "Regional Reference Lab" },
+        { "code": "national_diagnostic_lab", "label": "National Diagnostic Lab" },
+        { "code": "biobank_node", "label": "Specialized Biobank Node" }
+      ]
+    },
+    {
+      "code": "manufacturing_product_type",
+      "label": "Manufacturing Product by Type",
+      "options": [
+        { "code": "vaccine", "label": "Vaccine" },
+        { "code": "diagnostic", "label": "Diagnostic" },
+        { "code": "therapeutic", "label": "Therapeutic" }
+      ]
+    },
+    {
+      "code": "goods_category",
+      "label": "Category of Goods",
+      "options": [
+        { "code": "medical", "label": "Medical (Vaccines, Therapeutics, Diagnostics)" },
+        { "code": "non_medical", "label": "Non-Medical (IPC items, equipment, office assets)" }
+      ]
+    },
+    {
+      "code": "service_type",
+      "label": "Type of Service",
+      "options": [
+        { "code": "consultancy", "label": "Consultancy" },
+        { "code": "it", "label": "IT" },
+        { "code": "software", "label": "Software" },
+        { "code": "facility_management", "label": "Facility Management" },
+        { "code": "maintenance", "label": "Maintenance" },
+        { "code": "temporary_staffing", "label": "Temporary Staffing" }
+      ]
+    },
+    {
+      "code": "technical_assistance_type",
+      "label": "Technical Assistance by Type",
+      "options": [
+        { "code": "financial_support", "label": "Financial Support" },
+        { "code": "technical_support", "label": "Technical Support" },
+        { "code": "infrastructure_support", "label": "Infrastructure Support" },
+        { "code": "mass_campaign", "label": "Mass Campaign" },
+        { "code": "expert_deployment", "label": "Expert Deployment" },
+        { "code": "advocacy_resource_mobilization", "label": "Advocacy & Resource Mobilization" },
+        { "code": "rcce_sbc", "label": "RCCE & SBC (Demand Generation)" },
+        { "code": "policy_documents", "label": "Strategic/Policy Documents Development/Update/Revision (e.g. Framework, Manual, SOP, Protocol, Job Aid, Toolkit, Strategic Plan, Policy Guidelines, Curriculum, Handbook, etc.)" },
+        { "code": "logistical_support", "label": "Logistical Support (vaccines, PPEs, IEC Materials, Equipment, CCE, etc.)" },
+        { "code": "social_events", "label": "Social Events (e.g. Side Events, Health Walk/Talk)" },
+        { "code": "health_education", "label": "Health Education & Promotion" },
+        { "code": "conferences_symposium_webinars", "label": "Conferences / Symposium / Webinars" },
+        { "code": "coordination_platforms", "label": "Establishment or operationalization of Coordination Platforms, TWGs & Taskforce, COPs" },
+        { "code": "capacity_building", "label": "Capacity Building & Training" },
+        { "code": "workshops_meetings", "label": "Workshops / Meetings" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "partner_type",
+      "label": "Partner Type",
+      "options": [
+        { "code": "government_ms", "label": "Government/Member States" },
+        { "code": "academic", "label": "Academic" },
+        { "code": "private_sector", "label": "Private Sector" },
+        { "code": "development_partner", "label": "Development Partner" },
+        { "code": "implementing_partner", "label": "Implementing Partner" },
+        { "code": "donor", "label": "Donor" }
+      ]
+    },
+    {
+      "code": "mou_type",
+      "label": "Type of MoU",
+      "options": [
+        { "code": "recs", "label": "RECs" },
+        { "code": "partners", "label": "Partners" }
+      ]
+    },
+    {
+      "code": "funding_type",
+      "label": "Funding Type",
+      "options": [
+        { "code": "domestic", "label": "Domestic" },
+        { "code": "donor", "label": "Donor" },
+        { "code": "both", "label": "Both (Domestic + Donor)" }
+      ]
+    },
+    {
+      "code": "investment_case_category",
+      "label": "Investment Cases Developed & by Category",
+      "options": [
+        { "code": "internally", "label": "Internally" },
+        { "code": "externally", "label": "Externally" },
+        { "code": "list_per_category", "label": "List the Investment Cases per category or type of area (CHWs, RCCE, PHC, OH, NPHI, NCDs, MH, Lab, etc.)" }
+      ]
+    },
+    {
+      "code": "legal_instrument_type",
+      "label": "Legal Instrument Developed by Type",
+      "options": [
+        { "code": "biosafety_biosecurity", "label": "Biosafety and Biosecurity Laws" },
+        { "code": "ipc", "label": "IPC Laws" },
+        { "code": "nphi", "label": "NPHI Laws" },
+        { "code": "pheocs", "label": "PHEOCs Laws" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "due_diligence_type",
+      "label": "Type of Due Diligence",
+      "options": [
+        { "code": "internal", "label": "Internal" },
+        { "code": "external", "label": "External" }
+      ]
+    },
+    {
+      "code": "issue_type",
+      "label": "Type of Issue",
+      "options": [
+        { "code": "ethical", "label": "Ethical" },
+        { "code": "compliance", "label": "Compliance" },
+        { "code": "legal", "label": "Legal" }
+      ]
+    },
+    {
+      "code": "rcce_reach",
+      "label": "RCCE Reach",
+      "options": [
+        { "code": "community_engagement", "label": "Community Engagement Platforms" },
+        { "code": "social_media", "label": "Social Media" },
+        { "code": "digital_platforms", "label": "Digital Platforms" },
+        { "code": "others", "label": "Others" }
+      ]
+    },
+    {
+      "code": "media_reach_type",
+      "label": "Type of Media Reach",
+      "options": [
+        { "code": "social_media", "label": "Social Media (Facebook, X/Twitter, WhatsApp, LinkedIn, YouTube)" },
+        { "code": "interactive", "label": "Interactive (Websites & Blogs, Polls, Podcasts, video streaming platforms)" },
+        { "code": "traditional", "label": "Traditional (TV, Radio, Email, Newspapers, Magazines, Brochures, Flyers, Billboards, Pull-Up Banners, Posters, Job-Aids)" },
+        { "code": "interpersonal", "label": "Interpersonal (SMS/Text Messaging, Phone Calls, Video Calls — Zoom, Teams)" }
+      ]
+    },
+    {
+      "code": "rcc",
+      "label": "Regional Coordinating Centres (RCCs)",
+      "options": [
+        { "code": "central", "label": "Central" },
+        { "code": "eastern", "label": "Eastern" },
+        { "code": "southern", "label": "Southern" },
+        { "code": "northern", "label": "Northern" },
+        { "code": "western", "label": "Western" }
+      ]
+    },
+    {
+      "code": "digitization_status",
+      "label": "Digitization/Automation Status",
+      "options": [
+        { "code": "partial", "label": "Partial" },
+        { "code": "fully", "label": "Fully" }
+      ]
+    }
+  ]
+}

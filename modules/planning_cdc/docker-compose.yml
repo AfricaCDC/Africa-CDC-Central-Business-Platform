@@ -1,0 +1,314 @@
+##
+# RBM Platform — Production Docker Compose
+# Africa CDC Results-Based Management Platform
+#
+# Build context is the monorepo root (`.`) so shared packages/* are
+# reachable inside every service Dockerfile.
+#
+# Usage:
+#   docker compose --env-file .env.production up -d --build
+#   docker compose logs -f api-server
+#   docker compose down
+##
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "50m"
+    max-file: "5"
+
+services:
+
+  # ── Database (MySQL 8) ──
+  db:
+    image: mysql:8.0
+    container_name: rbm-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${DB_NAME:-rbm_platform}
+      MYSQL_USER: ${DB_USER:-rbm_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-rbm_pass}
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    volumes:
+      - rbm-db-data:/var/lib/mysql
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+    logging: *default-logging
+    networks:
+      - backend
+
+  # ── Cache (Redis) ──
+  cache:
+    image: redis:7-alpine
+    container_name: rbm-cache
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - rbm-cache-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+    logging: *default-logging
+    networks:
+      - backend
+
+  # ── API Gateway (internal nginx routing) ──
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    container_name: rbm-api-gateway
+    restart: unless-stopped
+    depends_on:
+      api-server:
+        condition: service_healthy
+      notification-service:
+        condition: service_healthy
+      sync-service:
+        condition: service_healthy
+      web-app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    logging: *default-logging
+    stop_grace_period: 15s
+    networks:
+      - backend
+      - frontend
+
+  # ── API Server (Express monolith) ──
+  api-server:
+    build:
+      context: .
+      dockerfile: services/api-server/Dockerfile
+    container_name: rbm-api-server
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-rbm_user}
+      DB_PASSWORD: ${DB_PASSWORD:-rbm_pass}
+      DB_NAME: ${DB_NAME:-rbm_platform}
+      DB_SSL: ${DB_SSL:-false}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      SERVICE_TOKEN_SECRET: ${SERVICE_TOKEN_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-30m}
+      JWT_REFRESH_TTL: ${JWT_REFRESH_TTL:-7d}
+      REDIS_URL: redis://cache:6379
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      SKIP_MIGRATIONS: ${SKIP_MIGRATIONS:-false}
+      # ── Microsoft Entra ID (Outlook SSO) ─────────────────────
+      # Values live in .env at the repo root. The compose file must
+      # forward them explicitly because we do not use `env_file:` on
+      # this service — every var passed to the container is whitelisted
+      # here on purpose.
+      MS_TENANT_ID: ${MS_TENANT_ID}
+      MS_CLIENT_ID: ${MS_CLIENT_ID}
+      MS_CLIENT_SECRET: ${MS_CLIENT_SECRET}
+      MS_REDIRECT_URI: ${MS_REDIRECT_URI:-}
+      # ── Public URL used by microsoftAuth.js to derive the default
+      # redirect URI (`${APP_BASE_URL}/api/auth/microsoft/callback`)
+      # when MS_REDIRECT_URI is not set explicitly.
+      APP_BASE_URL: ${APP_BASE_URL:-}
+      # ── Password reset + notification service-to-service URL ──
+      NOTIFICATION_SERVICE_URL: ${NOTIFICATION_SERVICE_URL:-http://notification-service:3005}
+      PASSWORD_RESET_TTL_MINUTES: ${PASSWORD_RESET_TTL_MINUTES:-60}
+      # ── Verification files: Power Automate flow that stores them in
+      # SharePoint and returns the file link (reporting/evidenceRoutes.js).
+      # Missing = every upload fails with 503 SHAREPOINT_NOT_CONFIGURED.
+      POWER_AUTOMATE_URL: ${POWER_AUTOMATE_URL}
+      # ── CBP staff directory (basic auth) — cbpService.js ──────
+      # Consumed by the /api/staff/* directory routes and the admin
+      # "Import CBP users" action (D-20260713-01). Endpoint paths have
+      # sane defaults in cbpService.js; only the credentials are required
+      # (values live in the root .env, never in this file).
+      CBP_BASE_URL: ${CBP_BASE_URL:-https://cbp.africacdc.org}
+      CBP_STAFF_ENDPOINT: ${CBP_STAFF_ENDPOINT:-}
+      CBP_DIVISIONS_ENDPOINT: ${CBP_DIVISIONS_ENDPOINT:-}
+      CBP_AUTH_USERNAME: ${CBP_AUTH_USERNAME:-}
+      CBP_AUTH_PASSWORD: ${CBP_AUTH_PASSWORD:-}
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:4000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+    logging: *default-logging
+    stop_grace_period: 30s
+    networks:
+      - backend
+
+  # ── Web App (React frontend, built into nginx static image) ──
+  web-app:
+    build:
+      context: .
+      dockerfile: services/web-app/Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-}
+        VITE_BASE_PATH: ${VITE_BASE_PATH:-/}
+        VITE_SUPPORT_EMAIL: ${VITE_SUPPORT_EMAIL:-}
+    container_name: rbm-web-app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    logging: *default-logging
+    networks:
+      - backend
+
+  # ── Notification Service ──
+  notification-service:
+    build:
+      context: .
+      dockerfile: services/notification-service/Dockerfile
+    container_name: rbm-notification-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      # The outbox worker reads notification_outbox from MySQL. Without these
+      # the config falls back to DB_HOST=127.0.0.1 inside the container and the
+      # worker loops on ECONNREFUSED — no email ever leaves (D-20260817-01).
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-rbm_user}
+      DB_PASSWORD: ${DB_PASSWORD:-rbm_pass}
+      DB_NAME: ${DB_NAME:-rbm_platform}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      SERVICE_TOKEN_SECRET: ${SERVICE_TOKEN_SECRET}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-RBM Platform <noreply@africacdc.org>}
+      # Email transport driver: smtp (default) | graph | composite (Graph
+      # primary, SMTP fallback). Graph reuses the SSO Entra App Registration;
+      # requires the Mail.Send application permission (D-20260817-01).
+      EMAIL_DRIVER: ${EMAIL_DRIVER:-smtp}
+      MS_TENANT_ID: ${MS_TENANT_ID:-}
+      MS_CLIENT_ID: ${MS_CLIENT_ID:-}
+      MS_CLIENT_SECRET: ${MS_CLIENT_SECRET:-}
+      GRAPH_FROM: ${GRAPH_FROM:-}
+      APP_URL: ${APP_URL:-http://localhost}
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3005/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    logging: *default-logging
+    stop_grace_period: 15s
+    networks:
+      - backend
+
+  # ── Sync Service ──
+  sync-service:
+    build:
+      context: .
+      dockerfile: services/sync-service/Dockerfile
+    container_name: rbm-sync-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3006
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      SERVICE_TOKEN_SECRET: ${SERVICE_TOKEN_SECRET}
+      API_SERVER_URL: http://api-server:4000
+      CBP_API_URL: ${CBP_API_URL:-}
+      CBP_API_KEY: ${CBP_API_KEY:-}
+      SYNC_SERVICE_TOKEN: ${SYNC_SERVICE_TOKEN:-}
+      CBP_SYNC_CRON: ${CBP_SYNC_CRON:-0 2 * * *}
+      AMERT_SYNC_CRON: ${AMERT_SYNC_CRON:-0 3 * * 1}
+      ENABLE_CRON: ${ENABLE_CRON:-true}
+    depends_on:
+      api-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3006/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+    logging: *default-logging
+    stop_grace_period: 15s
+    networks:
+      - backend
+
+volumes:
+  rbm-db-data:
+    driver: local
+  rbm-cache-data:
+    driver: local
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge

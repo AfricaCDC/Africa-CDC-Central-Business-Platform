@@ -1,0 +1,47 @@
+{
+  "name": "rbm-api-server",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "migrate": "npx knex migrate:latest",
+    "seed": "npx knex seed:run",
+    "migrate:rollback": "npx knex migrate:rollback",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --forceExit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.4"
+  },
+  "dependencies": {
+    "@azure/msal-node": "^7.2.1",
+    "@rbm/lib": "*",
+    "@rbm/schemas": "*",
+    "axios": "^1.13.6",
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "knex": "^3.1.0",
+    "morgan": "^1.10.1",
+    "multer": "^2.5.0",
+    "mysql2": "^3.19.0",
+    "pptxgenjs": "^3.12.0",
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5",
+    "zod": "^4.3.6"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "name": "@rbm/lib",
+  "version": "1.0.0",
+  "description": "Shared constants, roles, permissions, enums, colors, errors, auth, formatters — RBM Platform",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "./index.js",
+      "default": "./index.js"
+    },
+    "./formatters": {
+      "import": "./formatters.mjs",
+      "require": "./formatters.js",
+      "default": "./formatters.js"
+    },
+    "./theme": {
+      "import": "./theme.mjs",
+      "require": "./theme.js",
+      "default": "./theme.js"
+    },
+    "./enums": {
+      "import": "./enums.mjs",
+      "require": "./enums.js",
+      "default": "./enums.js"
+    },
+    "./roles": {
+      "import": "./roles.mjs",
+      "require": "./roles.js",
+      "default": "./roles.js"
+    },
+    "./errors": {
+      "import": "./errors.mjs",
+      "require": "./errors.js",
+      "default": "./errors.js"
+    },
+    "./html": {
+      "import": "./html.mjs",
+      "require": "./html.js",
+      "default": "./html.js"
+    },
+    "./logger": {
+      "import": "./logger.mjs",
+      "require": "./logger.js",
+      "default": "./logger.js"
+    },
+    "./fileTypes": {
+      "import": "./fileTypes.mjs",
+      "require": "./fileTypes.js",
+      "default": "./fileTypes.js"
+    },
+    "./serviceToken": {
+      "import": "./serviceToken.mjs",
+      "require": "./serviceToken.js",
+      "default": "./serviceToken.js"
+    },
+    "./auth": {
+      "require": "./auth.js",
+      "default": "./auth.js"
+    },
+    "./colors": {
+      "import": "./colors.mjs",
+      "require": "./colors.js",
+      "default": "./colors.js"
+    },
+    "./cache": {
+      "import": "./cache.mjs",
+      "require": "./cache.js",
+      "default": "./cache.js"
+    },
+    "./rbac": {
+      "import": "./rbac.mjs",
+      "require": "./rbac.js",
+      "default": "./rbac.js"
+    },
+    "./user-divisions": {
+      "import": "./user-divisions.mjs",
+      "require": "./user-divisions.js",
+      "default": "./user-divisions.js"
+    },
+    "./events": {
+      "import": "./events.mjs",
+      "require": "./events.js",
+      "default": "./events.js"
+    },
+    "./fiscalYear": {
+      "import": "./fiscalYear.mjs",
+      "require": "./fiscalYear.js",
+      "default": "./fiscalYear.js"
+    },
+    "./complexity": {
+      "import": "./complexity.mjs",
+      "require": "./complexity.js",
+      "default": "./complexity.js"
+    },
+    "./countries": {
+      "import": "./countries.mjs",
+      "require": "./countries.js",
+      "default": "./countries.js"
+    }
+  },
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "rbm-file-generator-service",
+  "version": "0.1.0",
+  "description": "Multi-format document generation sidecar (PDF, PPTX, XLSX, DOCX, CSV, ZIP) — supersedes retired pdf-service (D-20260415-08, D-20260415-15)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "jest --forceExit",
+    "test:coverage": "jest --coverage --forceExit"
+  },
+  "dependencies": {
+    "@rbm/lib": "*",
+    "@rbm/schemas": "*",
+    "archiver": "^7.0.1",
+    "cors": "^2.8.6",
+    "docx": "^8.5.0",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.1",
+    "morgan": "^1.10.1",
+    "p-queue": "^6.6.2",
+    "pptxgenjs": "^3.12.0",
+    "puppeteer": "^22.15.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}

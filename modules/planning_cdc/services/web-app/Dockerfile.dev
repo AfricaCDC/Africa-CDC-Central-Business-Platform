@@ -1,0 +1,30 @@
+# ─────────────────────────────────────────────────────────────
+# RBM Platform — web-app (development with hot reload)
+# Bind-mount the repo into /app via docker-compose.dev.yml.
+# Build from repo root:
+#   docker build -f services/web-app/Dockerfile.dev .
+# ─────────────────────────────────────────────────────────────
+
+FROM node:20-alpine
+
+RUN apk add --no-cache wget tini
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+COPY packages/ ./packages/
+COPY services/web-app/package.json ./services/web-app/package.json
+
+RUN npm install --workspace=services/web-app --include-workspace-root
+
+WORKDIR /app/services/web-app
+
+ENV NODE_ENV=development
+
+EXPOSE 5000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+  CMD wget -qO- http://localhost:5000 || exit 1
+
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["npx", "vite", "--host", "0.0.0.0", "--port", "5000"]
