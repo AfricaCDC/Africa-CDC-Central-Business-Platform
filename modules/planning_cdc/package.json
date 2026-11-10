@@ -1,0 +1,57 @@
+{
+  "name": "planning-cdc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Africa CDC RBM Planning Platform",
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev:api & npm run dev:web",
+    "dev:api": "cd services/api-server && npm run dev",
+    "dev:web": "cd services/web-app && npx vite --host 0.0.0.0 --port 5000",
+    "start:api": "cd services/api-server && npm start",
+    "start:web": "cd services/web-app && npx vite preview --port 5000",
+    "migrate": "cd services/api-server && npm run migrate",
+    "seed": "cd services/api-server && npm run seed",
+    "install:all": "npm install",
+    "prepare": "husky || true",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "guardrails:check": "bash scripts/check-forbidden.sh --all",
+    "guardrails:test": "bash scripts/check-forbidden.spec.sh",
+    "setup:guardrails": "husky && bash scripts/check-forbidden.spec.sh"
+  },
+  "keywords": [
+    "rbm",
+    "africa-cdc",
+    "planning"
+  ],
+  "author": "Africa CDC MIS",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs}": [
+      "eslint --max-warnings 0 --no-warn-ignored"
+    ],
+    "*.{md,json,yml,yaml}": []
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-n": "^17.0.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "globals": "^15.0.0",
+    "husky": "^9.1.0",
+    "lint-staged": "^15.2.0"
+  }
+}

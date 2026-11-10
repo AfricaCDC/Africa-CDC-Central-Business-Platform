@@ -145,6 +145,24 @@ class CbpModulesAdminService
             'target_resolver' => 'staff_app_token',
             'sort_order' => 50,
         ],
+        [
+            'module_key' => 'pra',
+            'system_name' => 'Result Based Management (RBM)',
+            'description' => 'Workplan, indicators, quarterly reporting and Big Tickets (modules/planning_cdc).',
+            'base_url' => 'planning',
+            'base_url_development' => null,
+            'base_url_production' => null,
+            'icon_class' => 'fa-project-diagram',
+            'permission_code' => '128',
+            'uses_staff_portal_token' => 1,
+            'is_production' => 1,
+            'is_enabled' => 1,
+            'show_in_apm_menu' => 0,
+            'alternate_base_url' => null,
+            'alternate_for_role_id' => null,
+            'target_resolver' => 'staff_app_token',
+            'sort_order' => 55,
+        ],
     ];
 
     /** @var list<string> */

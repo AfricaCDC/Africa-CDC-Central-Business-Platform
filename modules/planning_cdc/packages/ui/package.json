@@ -1,0 +1,12 @@
+{
+  "name": "@rbm/ui",
+  "version": "1.0.0",
+  "description": "RBM Platform — Shared React UI Components",
+  "main": "index.jsx",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "react": ">=18",
+    "react-router-dom": ">=6",
+    "lucide-react": ">=0.300"
+  }
+}

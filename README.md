@@ -25,7 +25,7 @@ Integrated with the Matrix Approval Management module, the system ensures struct
 
 This system enhances **transparency**, **accountability**, and **timely decision-making** across Africa CDC's internal operations.
 
-**Repository layout:** CBP apps live under `modules/{staff-portal,apm,finance,helpdesk,risk-register}`. Public URLs stay `/staff/`, `/staff/backend`, `/staff/apm`, `/staff/finance`, `/staff/helpdesk`, and `/staff/risk-register` (Apache maps these into `modules/`; there is no root `backend` symlink).
+**Repository layout:** CBP apps live under `modules/{staff-portal,apm,finance,helpdesk,risk-register}`. Result Based Management (`modules/planning_cdc`, synced from Azure DevOps) runs its own Node stack behind `/staff/planning`; see [docs/MODULE_INTEGRATION.md](./docs/MODULE_INTEGRATION.md#1b-modules-with-their-own-stack-planning_cdc). Public URLs stay `/staff/`, `/staff/backend`, `/staff/apm`, `/staff/finance`, `/staff/helpdesk`, and `/staff/risk-register` (Apache maps these into `modules/`; there is no root `backend` symlink).
 
 **Adding a new module?** See [docs/MODULE_INTEGRATION.md](./docs/MODULE_INTEGRATION.md) — register in the CBP launcher, call the Staff Share API, and optionally the APM REST APIs.
 

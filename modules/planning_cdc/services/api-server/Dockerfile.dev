@@ -1,0 +1,33 @@
+# ─────────────────────────────────────────────────────────────
+# RBM Platform — api-server (development with hot reload)
+# Bind-mount the repo into /app via docker-compose.dev.yml.
+# Build from repo root:
+#   docker build -f services/api-server/Dockerfile.dev .
+# ─────────────────────────────────────────────────────────────
+
+FROM node:20-alpine
+
+RUN apk add --no-cache wget tini
+
+WORKDIR /app
+
+# Workspace metadata is enough — actual source is bind-mounted at runtime
+COPY package.json package-lock.json* ./
+COPY packages/ ./packages/
+COPY services/api-server/package.json ./services/api-server/package.json
+
+RUN npm install --workspace=services/api-server --include-workspace-root
+
+WORKDIR /app/services/api-server
+
+ENV NODE_ENV=development \
+    PORT=4000
+
+EXPOSE 4000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget -qO- http://localhost:4000/api/health || exit 1
+
+# Node 20 has built-in --watch — no nodemon dependency needed
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["node", "--watch", "src/index.js"]

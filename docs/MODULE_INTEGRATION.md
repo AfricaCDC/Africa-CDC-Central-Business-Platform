@@ -44,6 +44,7 @@ Public URL layout (Apache maps folder → `modules/`):
 | Finance | `/{WEB_ROOT}/finance` |
 | Helpdesk | `/{WEB_ROOT}/helpdesk` |
 | Risk Register | `/{WEB_ROOT}/risk-register` |
+| Result Based Management (RBM) | `/{WEB_ROOT}/planning` (reverse proxy, see [§1b](#1b-modules-with-their-own-stack-planning_cdc)) |
 
 `WEB_ROOT` is usually `staff`, `cbp`, `demo_cbp`, etc. (see [SETUP.md](./SETUP.md)).
 
@@ -71,6 +72,26 @@ Wire into root setup when ready:
 - Optional Supervisor programs via `scripts/setup/install-supervisor.sh`
 
 Until then you can develop under `modules/your-module` and point `APP_URL` at `/{WEB_ROOT}/your-module`.
+
+### 1b. Modules with their own stack (planning_cdc)
+
+`modules/planning_cdc` is the Result Based Management platform (RBM, also served at `pra.africacdc.org`). It is a Node/React stack with its own MySQL, Redis and nginx gateway, so Apache does not serve its files. Apache forwards `/staff/planning/` to the planning gateway and strips the prefix.
+
+- **Source of truth.** `modules/planning_cdc` is a copy of the Azure DevOps repo `AfricaCDC/Tools/planning`, limited to what builds and runs the stack (`services/`, `packages/`, `scripts/` and the root build files). Its docs, workbooks and `services/api-server/src/db/data/` (budget and workplan snapshots) stay in Azure DevOps. Change the code there. Each push to its `main` opens or updates a sync PR here (branch `sync/planning-cdc`), one commit per sync. A commit made under `modules/planning_cdc` in this repo shows up reverted in the next sync PR.
+- **Proxy.** `docker/apache/000-staff.conf` holds the `<Location /staff/planning/>` block (`mod_proxy_http`). A host-Apache install copies the block into its vhost and points `ProxyPass` at the gateway's published address. If `WEB_ROOT` is not `staff`, change the path in the block.
+- **Network.** The CBP `docker-compose.yml` creates the `cbp-modules` network. Start the CBP first, then the planning stack with the overlay, which gives its gateway the alias `planning-gateway` on that network:
+
+  ```bash
+  cd modules/planning_cdc
+  docker compose --env-file .env.production -f docker-compose.yml -f ../../docker/planning-cdc.compose.yml up -d --build
+  ```
+
+  The api-server runs `knex migrate:latest` at start. On an empty database, six data migrations need `services/api-server/src/db/data/`, which this copy leaves out: copy that folder from the Azure DevOps repo into `modules/planning_cdc` before the first `up --build`. An existing database does not need it.
+
+- **Launcher.** `CORE_MODULES` key `pra` (the RBM card of the home catalog), base URL `planning`, permission 128 `cbp_pra`, resolver `staff_app_token`. An existing `pra` row is never overwritten, so a production row that points at `pra.africacdc.org` keeps working until an administrator changes it.
+- **SSO.** The Staff Portal posts `staff_sso_jwt` to `/staff/planning/sso/accept`. The planning api-server checks the HS256 signature with `CBP_SSO_JWT_SECRET`, which must equal the CBP root `JWT_SECRET`. Unsigned tokens are refused. Only staff who already have an RBM account can sign in.
+- **Planning env for this mode.** `VITE_BASE_PATH=/staff/planning/`, `APP_BASE_URL=https://<cbp-host>/staff/planning`, `MS_REDIRECT_URI=https://<cbp-host>/staff/planning/api/auth/microsoft/callback` (registered in Entra), `CORS_ORIGINS` including `https://<cbp-host>`, and `CBP_SSO_JWT_SECRET`. Staff and divisions sync keeps using `CBP_BASE_URL` with the Share API Basic credentials.
+- **Same origin.** In this mode RBM shares the CBP origin, and with it `localStorage` and cookies under `/staff`. RBM keeps its tokens under the keys `token`, `refreshToken` and `user`; no CBP app uses those keys today.
 
 ---
 

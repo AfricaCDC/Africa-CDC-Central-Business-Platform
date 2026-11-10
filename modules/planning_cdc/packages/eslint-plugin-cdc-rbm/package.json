@@ -1,0 +1,11 @@
+{
+  "name": "eslint-plugin-cdc-rbm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Custom ESLint rules for the Africa CDC RBM monorepo (charter §2/§4/§5).",
+  "main": "lib/index.js",
+  "peerDependencies": {
+    "eslint": ">=8"
+  },
+  "license": "ISC"
+}

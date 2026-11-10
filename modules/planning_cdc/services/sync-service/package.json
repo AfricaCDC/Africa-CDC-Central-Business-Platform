@@ -1,0 +1,19 @@
+{
+  "name": "rbm-sync-service",
+  "version": "1.0.0",
+  "description": "AMERT/CBP synchronization microservice for RBM Platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "@rbm/lib": "*",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.1",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.1",
+    "node-cron": "^3.0.3"
+  }
+}
