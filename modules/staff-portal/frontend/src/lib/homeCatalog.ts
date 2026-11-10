@@ -10,6 +10,8 @@ export interface HomeCatalogItem {
   launchPath?: string
   /** Path on this host outside the staff portal, e.g. /ACDC/2026/AfricaCDCDevTrack */
   sitePath?: string
+  /** Full address of a system outside the CBP, e.g. https://mis.africacdc.org/login */
+  url?: string
   icon?: string
 }
 
@@ -93,7 +95,7 @@ export const HOME_CATALOG: HomeCatalogTab[] = [
         items: [
           { label: 'Information Technology (IT)', moduleKey: 'it', launchPath: 'dashboard', icon: 'fa-server' },
           { label: 'Development Tracker (DT)', moduleKey: 'devtrack', icon: 'fa-code-branch' },
-          { label: 'MIS Dashboard (MSD)', icon: 'fa-chart-pie' },
+          { label: 'MIS Dashboard (MSD)', url: 'https://mis.africacdc.org/login', icon: 'fa-chart-pie' },
         ],
       },
       {
@@ -157,7 +159,7 @@ export const HOME_CATALOG: HomeCatalogTab[] = [
       },
       {
         title: 'MIS',
-        items: [{ label: 'StarLink Dashboard (SLD)', icon: 'fa-satellite-dish' }],
+        items: [{ label: 'StarLink Dashboard (SLD)', url: 'https://starlinkdashboard.africacdc.org/login', icon: 'fa-satellite-dish' }],
       },
     ],
   },
